@@ -8,6 +8,15 @@
 
 SecretFinder adalah **tool Python profesional** untuk menemukan data sensitif — API keys, access token, JWT, credentials, private key, dan lainnya — yang tersembunyi di dalam file JavaScript.
 
+# Before
+
+
+![SecretFinder Before](images/before.png)
+
+# After
+
+![SecretFinder After](images/after.png)
+
 ---
 
 ## ✨ Fitur Advanced Edition
