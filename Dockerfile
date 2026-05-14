@@ -1,14 +1,44 @@
-# usage:
-# while read url; do docker run -t wfnintr/secretfinder -i $url -o cli | tee -a js_results.txt;done < urls.txt
-from python:alpine
-LABEL source="SecretFinder <github.com/m4ll0k/SecretFinder>"
-LABEL maintainer="wfnintr@null.net"
-RUN apk update && \
-        apk add --virtual build-deps \
-        build-base gcc python3-dev && \
-        apk add libxml2-dev libxslt-dev && \
-        wget https://raw.githubusercontent.com/m4ll0k/SecretFinder/master/requirements.txt -qO - | pip3 install -r /dev/stdin && \
-        wget https://raw.githubusercontent.com/m4ll0k/SecretFinder/master/SecretFinder.py -qO /usr/local/bin/SecretFinder.py && \
-        chmod +x /usr/local/bin/SecretFinder.py && \
-        apk del build-deps
-ENTRYPOINT [ "SecretFinder.py" ]
+# SecretFinder Advanced Edition - Dockerized
+# Build: docker build -t secretfinder .
+# Run:   docker run --rm -v $(pwd)/output:/app/output secretfinder -i https://example.com/app.js -o output/result.html
+
+FROM python:3.12-slim
+
+# Labels for metadata
+LABEL org.opencontainers.image.title="SecretFinder Advanced"
+LABEL org.opencontainers.image.description="Professional tool to discover secrets in JavaScript files"
+LABEL org.opencontainers.image.authors="Xnuvers007 <https://github.com/Xnuvers007/SecretFinder>"
+
+# Environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libxml2-dev \
+    libxslt-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create non-root user and setup directories
+RUN useradd -m scanner && \
+    mkdir -p /app/output && \
+    chown -R scanner:scanner /app
+
+# Copy project files
+COPY --chown=scanner:scanner . .
+
+# Switch to non-root user
+USER scanner
+
+# Ensure output directory is a volume
+VOLUME ["/app/output"]
+
+ENTRYPOINT ["python", "SecretFinder.py"]
+CMD ["--help"]

@@ -1,4 +1,4 @@
-## Burp Suite - Secret Finder (beta v0.1)
+## Burp Suite - Secret Finder (v2.0)
 
 A Burp Suite extension to help pentesters to discover a apikeys,accesstokens and more sensitive data using a regular expressions. SecretFinder process any HTTP response (support javascript file) and support Passive and Active scan. This extension has been developed by (@m4ll0k).
 

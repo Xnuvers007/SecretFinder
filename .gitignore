@@ -1,1 +1,9 @@
 *.html
+venv/
+output/*.html
+output/*.json
+output/*.csv
+output/*.txt
+__pycache__/*
+core/__pycache__/*
+BurpSuite-SecretFinder/__pycache__/*
