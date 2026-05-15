@@ -721,7 +721,7 @@ PATTERNS: dict[str, tuple[str, Severity, str]] = {
         "Bitcoin Address",
     ),
     "zipcode_us_cn": (
-        r'\b\d{5}(-\d{4})?\b|\b[ABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Z]{1} *\d{1}[A-Z]{1}\d{1}\b',
+        r'\b\d{5}(-\d{4})?\b|\b[ABCEGHJKLMNPRSTVXY]\d[A-Z] *\d[A-Z]\d\b',
         Severity.INFO,
         "US/CN Zip Code",
     ),
